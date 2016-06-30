@@ -1,10 +1,13 @@
 #include <sourcemod>
+#include <sdkhooks>
 #include <sdktools>
 
 #pragma newdecls required
 
 // Plugin Informaiton  
-#define VERSION "1.00"
+#define VERSION "1.01"
+
+int g_offCollisionGroup = -1;
 
 //Convars
 ConVar cvar_medicshot = null;
@@ -164,4 +167,24 @@ void removeClientFromArray(ArrayList array, int client)
   {
     RemoveFromArray(array, FindValueInArray(array, client));
   }
+}
+
+public void OnEntityCreated(int entity, const char[] classname)
+{
+	if (!StrEqual(classname, "tagrenade_projectile"))
+		return;
+		
+	SDKHook(entity, SDKHook_Spawn, OnTacticalNadeSpawned);
+}
+
+public Action OnTacticalNadeSpawned(int entity)
+{
+	if (g_offCollisionGroup == -1) {
+		g_offCollisionGroup = FindSendPropOffs("CBaseEntity", "m_CollisionGroup");
+		if (g_offCollisionGroup == -1)
+			return Plugin_Continue;
+	}
+  
+	SetEntData(entity, g_offCollisionGroup, 2, 4, true);
+	return Plugin_Continue;
 }

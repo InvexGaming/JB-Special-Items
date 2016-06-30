@@ -1,0 +1,11 @@
+"Phrases"
+{
+  "Gave Medi Shot"
+  {
+    "en"			"You found a <font color='#336600'>Medi-Shot syringe</font>!\nUse it wisely."
+  }
+  "Gave Awareness Grenade"
+  {
+    "en"			"You found a <font color='#800000'>Tactical Awareness grenade</font> Use it wisely."
+  }
+}
